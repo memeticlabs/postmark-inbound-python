@@ -7,10 +7,11 @@ from email.utils import mktime_tz, parsedate_tz
 class PostmarkInbound(object):
 
     def __init__(self, **kwargs):
-        if 'json' not in kwargs:
-            raise Exception('Postmark Inbound Error: you must provide json data')
-        self.json = kwargs['json']
-        self.source = json.loads(self.json)
+        if 'json' in kwargs:
+            self.json = kwargs['json']
+            self.source = json.loads(self.json)
+        elif 'data' in kwargs:
+            self.source = kwargs['data']
 
     def subject(self):
         return self.source.get('Subject')
